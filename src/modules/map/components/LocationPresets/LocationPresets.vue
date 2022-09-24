@@ -29,6 +29,8 @@ defineEmits(["location-select"]);
 <style scoped>
 .location-presets {
   width: 400px;
+  max-height: 500px;
+  overflow-y: auto;
   padding: 16px 20px 20px;
   color: white;
   border-radius: 10px;
