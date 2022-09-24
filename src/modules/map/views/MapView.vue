@@ -25,15 +25,11 @@ const createMap = () => {
     const map = new mapboxgl.Map(mapOptions);
 
     map.on("load", () => {
-      // Insert the layer beneath any symbol layer.
       const layers = map.getStyle().layers;
       const labelLayerId = layers.find(
         (layer: any) => layer.type === "symbol" && layer.layout["text-field"]
       ).id;
 
-      // The 'building' layer in the Mapbox Streets
-      // vector tileset contains building height data
-      // from OpenStreetMap.
       map.addLayer(
         {
           id: "add-3d-buildings",
@@ -41,13 +37,9 @@ const createMap = () => {
           "source-layer": "building",
           filter: ["==", "extrude", "true"],
           type: "fill-extrusion",
-          minzoom: 15,
+          minzoom: 12,
           paint: {
-            "fill-extrusion-color": "#aaa",
-
-            // Use an 'interpolate' expression to
-            // add a smooth transition effect to
-            // the buildings as the user zooms in.
+            "fill-extrusion-color": "#3498db",
             "fill-extrusion-height": [
               "interpolate",
               ["linear"],

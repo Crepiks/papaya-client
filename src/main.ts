@@ -7,6 +7,7 @@ import router from "./router";
 
 import "./assets/main.css";
 import "mapbox-gl/dist/mapbox-gl.css";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 const app = createApp(App);
 
