@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import mapboxgl, { Map } from "mapbox-gl";
 import type { Location } from "@/common/entities/location";
 import LocationPresets from "../components/LocationPresets/LocationPresets.vue";
+import ModelPopup from "../components/ModelPopup/ModelPopup.vue";
 
 let map: any = null;
+const modelPopupVisible = ref(false);
 
 onMounted(() => {
   map = createMap();
@@ -78,6 +80,8 @@ const handleLocationSelect = (location: Location) => {
     });
   }
 
+  modelPopupVisible.value = true;
+
   new mapboxgl.Marker()
     .setLngLat([location.longitude, location.latitude])
     .addTo(map);
@@ -90,6 +94,7 @@ const handleLocationSelect = (location: Location) => {
     class="location-presets"
     @location-select="handleLocationSelect"
   />
+  <ModelPopup v-show="modelPopupVisible" class="model-popup" />
 </template>
 
 <style>
@@ -103,6 +108,12 @@ const handleLocationSelect = (location: Location) => {
 .location-presets {
   position: fixed;
   top: 30px;
+  right: 30px;
+}
+
+.model-popup {
+  position: fixed;
+  bottom: 30px;
   right: 30px;
 }
 </style>

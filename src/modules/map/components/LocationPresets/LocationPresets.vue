@@ -6,7 +6,7 @@ defineEmits(["location-select"]);
 
 <template>
   <div class="location-presets">
-    <span class="location-presets__title">Посмотрите также</span>
+    <span class="location-presets__title">May be interesting 😄</span>
     <div
       v-for="(location, index) in locations"
       :key="index"
@@ -36,10 +36,12 @@ defineEmits(["location-select"]);
 }
 
 .location-presets__title {
-  margin-bottom: 16px;
-  display: block;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
   font-size: 18px;
   font-weight: 500;
+  line-height: 1;
 }
 
 .location-presets__card {
