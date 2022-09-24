@@ -1,13 +1,16 @@
-<template>
-  <div id="map"></div>
-  <LocationPresets class="location-presets" />
-</template>
-
 <script lang="ts" setup>
 import { onMounted } from "vue";
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { Map } from "mapbox-gl";
+import type { Location } from "@/common/entities/location";
 import LocationPresets from "../components/LocationPresets/LocationPresets.vue";
-// import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import markerImage from "https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png";
+
+let map: any = null;
+
+onMounted(() => {
+  map = createMap();
+  console.log(map);
+});
 
 const mapOptions = {
   container: "map",
@@ -20,68 +23,76 @@ const mapOptions = {
 };
 
 const createMap = () => {
-  try {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoiYXphdHlrIiwiYSI6ImNsOGVzZjhhMjBlN3czdnA5amgyYmhqM3UifQ.vJarQRq9FMd1I0OnEkVEAA";
+  mapboxgl.accessToken =
+    "pk.eyJ1IjoiYXphdHlrIiwiYSI6ImNsOGVzZjhhMjBlN3czdnA5amgyYmhqM3UifQ.vJarQRq9FMd1I0OnEkVEAA";
 
-    const map = new mapboxgl.Map(mapOptions);
+  const map = new Map(mapOptions);
 
-    map.on("load", () => {
-      const layers = map.getStyle().layers;
-      const labelLayerId = layers.find(
-        (layer: any) => layer.type === "symbol" && layer.layout["text-field"]
-      ).id;
+  map.on("load", () => {
+    const layers = map.getStyle().layers;
+    const labelLayerId = layers.find(
+      (layer: any) => layer.type === "symbol" && layer.layout["text-field"]
+    ).id;
 
-      map.addLayer(
-        {
-          id: "add-3d-buildings",
-          source: "composite",
-          "source-layer": "building",
-          filter: ["==", "extrude", "true"],
-          type: "fill-extrusion",
-          minzoom: 12,
-          paint: {
-            "fill-extrusion-color": "#3498db",
-            "fill-extrusion-height": [
-              "interpolate",
-              ["linear"],
-              ["zoom"],
-              15,
-              0,
-              15.05,
-              ["get", "height"],
-            ],
-            "fill-extrusion-base": [
-              "interpolate",
-              ["linear"],
-              ["zoom"],
-              15,
-              0,
-              15.05,
-              ["get", "min_height"],
-            ],
-            "fill-extrusion-opacity": 0.6,
-          },
+    map.addLayer(
+      {
+        id: "add-3d-buildings",
+        source: "composite",
+        "source-layer": "building",
+        filter: ["==", "extrude", "true"],
+        type: "fill-extrusion",
+        minzoom: 12,
+        paint: {
+          "fill-extrusion-color": "#3498db",
+          "fill-extrusion-height": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            15,
+            0,
+            15.05,
+            ["get", "height"],
+          ],
+          "fill-extrusion-base": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            15,
+            0,
+            15.05,
+            ["get", "min_height"],
+          ],
+          "fill-extrusion-opacity": 0.6,
         },
-        labelLayerId
-      );
-    });
+      },
+      labelLayerId
+    );
+  });
 
-    // map.addControl(
-    //   new MapboxGeocoder({
-    //     accessToken: mapboxgl.accessToken,
-    //     mapboxgl: mapboxgl,
-    //   })
-    // );
-  } catch (err) {
-    console.log("map error", err);
-  }
+  return map;
 };
 
-onMounted(() => {
-  createMap();
-});
+const handleLocationSelect = (location: Location) => {
+  if (map) {
+    map.flyTo({
+      center: [location.longitude, location.latitude],
+      essential: true,
+    });
+  }
+
+  new mapboxgl.Marker()
+    .setLngLat([location.longitude, location.latitude])
+    .addTo(map);
+};
 </script>
+
+<template>
+  <div id="map"></div>
+  <LocationPresets
+    class="location-presets"
+    @location-select="handleLocationSelect"
+  />
+</template>
 
 <style>
 #map {

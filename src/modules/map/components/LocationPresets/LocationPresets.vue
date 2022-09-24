@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { locations } from "../../data/locations";
+
+defineEmits(["location-select"]);
 </script>
 
 <template>
@@ -9,6 +11,7 @@ import { locations } from "../../data/locations";
       v-for="(location, index) in locations"
       :key="index"
       class="location-presets__card"
+      @click="$emit('location-select', location)"
     >
       <div class="location-presets__row">
         <span class="location-presets__param"
