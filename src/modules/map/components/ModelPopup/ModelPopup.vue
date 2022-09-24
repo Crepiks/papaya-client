@@ -1,9 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const handleButtonClick = () => {
+  window.open("http://localhost:1234", "_blank");
+};
+</script>
 
 <template>
   <div class="model-popup">
     <span class="model-popup__title">Watch 3D model of building</span>
-    <button class="model-popup__button">
+    <button class="model-popup__button" @click="handleButtonClick">
       <i class="bx bx-current-location model-popup__button-icon" />
       Go to 3D model
     </button>
