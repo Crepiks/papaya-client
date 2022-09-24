@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import mapboxgl from "mapbox-gl";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+// import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
 const mapOptions = {
   container: "map",
@@ -65,12 +65,12 @@ const createMap = () => {
       );
     });
 
-    map.addControl(
-      new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-      })
-    );
+    // map.addControl(
+    //   new MapboxGeocoder({
+    //     accessToken: mapboxgl.accessToken,
+    //     mapboxgl: mapboxgl,
+    //   })
+    // );
   } catch (err) {
     console.log("map error", err);
   }
