@@ -3,13 +3,11 @@ import { onMounted } from "vue";
 import mapboxgl, { Map } from "mapbox-gl";
 import type { Location } from "@/common/entities/location";
 import LocationPresets from "../components/LocationPresets/LocationPresets.vue";
-import markerImage from "https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png";
 
 let map: any = null;
 
 onMounted(() => {
   map = createMap();
-  console.log(map);
 });
 
 const mapOptions = {
