@@ -1,10 +1,12 @@
 <template>
   <div id="map"></div>
+  <LocationPresets class="location-presets" />
 </template>
 
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import mapboxgl from "mapbox-gl";
+import LocationPresets from "../components/LocationPresets/LocationPresets.vue";
 // import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
 const mapOptions = {
@@ -87,5 +89,11 @@ onMounted(() => {
   top: 0;
   bottom: 0;
   width: 100%;
+}
+
+.location-presets {
+  position: fixed;
+  top: 30px;
+  right: 30px;
 }
 </style>
